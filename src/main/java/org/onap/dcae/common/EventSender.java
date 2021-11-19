@@ -23,7 +23,7 @@ package org.onap.dcae.common;
 
 import io.vavr.collection.Map;
 import org.onap.dcae.common.model.VesEvent;
-import org.onap.dcae.common.publishing.DMaaPEventPublisher;
+import org.onap.dcae.common.publishing.EventPublisher;
 import org.onap.dcae.restapi.EventValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +37,11 @@ import static org.onap.dcae.restapi.ApiException.DOMAIN_NOT_DEFINED_FOR_STREAM_I
 public class EventSender {
 
     private Map<String, String> streamIdToDmaapIds;
-    private DMaaPEventPublisher eventPublisher;
+    private EventPublisher eventPublisher;
     private static final Logger log = LoggerFactory.getLogger(EventSender.class);
 
-    public EventSender(DMaaPEventPublisher eventPublisher, Map<String, String> streamIdToDmaapIds) {
+
+    public EventSender(EventPublisher eventPublisher, Map<String, String> streamIdToDmaapIds) {
         this.eventPublisher = eventPublisher;
         this.streamIdToDmaapIds = streamIdToDmaapIds;
     }

@@ -28,7 +28,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.dcae.common.model.StndDefinedNamespaceParameterNotDefinedException;
 import org.onap.dcae.common.model.VesEvent;
-import org.onap.dcae.common.publishing.DMaaPEventPublisher;
+import org.onap.dcae.common.publishing.EventPublisher;
 import org.onap.dcae.restapi.EventValidatorException;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ import static org.mockito.Mockito.verify;
 public class EventSenderTest {
 
   @Mock
-  private DMaaPEventPublisher eventPublisher;
+  private EventPublisher eventPublisher;
 
 
   @Test

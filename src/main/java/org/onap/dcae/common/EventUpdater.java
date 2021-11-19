@@ -39,7 +39,7 @@ public class EventUpdater {
   private static final String EVENT = "event";
   private static final String VES_UNIQUE_ID = "VESuniqueId";
   private static final String VES_VERSION = "VESversion";
-  private static final Logger log = LoggerFactory.getLogger(EventSender.class);
+  private static final Logger log = LoggerFactory.getLogger(EventUpdater.class);
   private static final String EVENT_LITERAL = "event";
   private static final String COMMON_EVENT_HEADER = "commonEventHeader";
   private ApplicationSettings settings;

@@ -21,6 +21,7 @@
 
 package org.onap.dcae.restapi;
 
+import io.vavr.collection.Map;
 import org.json.JSONObject;
 import org.onap.dcae.ApplicationSettings;
 import org.onap.dcae.common.EventSender;
@@ -32,6 +33,7 @@ import org.onap.dcae.common.model.PayloadToLargeException;
 import org.onap.dcae.common.model.StndDefinedNamespaceParameterHasEmptyValueException;
 import org.onap.dcae.common.model.StndDefinedNamespaceParameterNotDefinedException;
 import org.onap.dcae.common.model.VesEvent;
+import org.onap.dcae.common.publishing.EventPublisher;
 import org.onap.dcae.common.validator.GeneralEventValidator;
 import org.onap.dcae.common.validator.StndDefinedDataValidator;
 import org.onap.dcaegen2.services.sdk.standardization.header.CustomHeaderUtils;

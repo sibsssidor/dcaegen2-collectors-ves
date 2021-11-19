@@ -23,17 +23,18 @@ package org.onap.dcae;
 
 import io.vavr.collection.Map;
 import org.onap.dcae.common.EventSender;
-import org.onap.dcae.common.validator.StndDefinedValidatorResolver;
 import org.onap.dcae.common.publishing.DMaaPConfigurationParser;
-import org.onap.dcae.common.publishing.DMaaPEventPublisher;
+import org.onap.dcae.common.publishing.EventPublisher;
 import org.onap.dcae.common.publishing.PublisherConfig;
-import org.onap.dcae.configuration.ConfigurationHandler;
+import org.onap.dcae.common.validator.StndDefinedValidatorResolver;
 import org.onap.dcae.configuration.ConfigUpdater;
 import org.onap.dcae.configuration.ConfigUpdaterFactory;
+import org.onap.dcae.configuration.ConfigurationHandler;
 import org.onap.dcae.configuration.cbs.CbsClientConfigurationProvider;
 import org.onap.dcaegen2.services.sdk.services.external.schema.manager.service.StndDefinedValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -58,7 +59,6 @@ public class VesApplication {
     private static ApplicationSettings applicationSettings;
     private static ConfigurableApplicationContext context;
     private static ConfigUpdater configUpdater;
-    private static DMaaPEventPublisher eventPublisher;
     private static ApplicationConfigurationListener applicationConfigurationListener;
     private static ReentrantLock applicationLock = new ReentrantLock();
 
@@ -78,7 +78,6 @@ public class VesApplication {
         configUpdater = ConfigUpdaterFactory.create(
                 applicationSettings.configurationFileLocation(),
                 Paths.get(applicationSettings.dMaaPConfigurationFileLocation()));
-        eventPublisher = new DMaaPEventPublisher(getDmaapConfig());
         app.setAddCommandLineProperties(true);
         context = app.run();
     }
@@ -99,7 +98,6 @@ public class VesApplication {
 
     private static void reloadApplicationResources() {
         applicationSettings.reload();
-        eventPublisher.reload(getDmaapConfig());
         configUpdater.setPaths(applicationSettings.configurationFileLocation(),
                 Paths.get(applicationSettings.dMaaPConfigurationFileLocation()));
         applicationConfigurationListener.reload(Duration.ofMinutes(applicationSettings.configurationUpdateFrequency()));
@@ -144,9 +142,10 @@ public class VesApplication {
 
     @Bean
     @Qualifier("eventSender")
-    public EventSender eventSender() {
+    public EventSender eventSender(@Autowired EventPublisher eventPublisher) {
         return new EventSender(eventPublisher, applicationSettings.getDmaapStreamIds());
     }
+
 
     @Bean
     public StndDefinedValidator getStndDefinedValidator(StndDefinedValidatorResolver resolver) {

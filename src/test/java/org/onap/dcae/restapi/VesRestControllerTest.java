@@ -43,7 +43,7 @@ import org.onap.dcae.common.HeaderUtils;
 import org.onap.dcae.common.JsonDataLoader;
 import org.onap.dcae.common.model.InternalException;
 import org.onap.dcae.common.model.PayloadToLargeException;
-import org.onap.dcae.common.publishing.DMaaPEventPublisher;
+import org.onap.dcae.common.publishing.EventPublisher;
 import org.onap.dcae.common.validator.StndDefinedDataValidator;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -94,7 +94,7 @@ public class VesRestControllerTest {
     private HeaderUtils headerUtils;
 
     @Mock
-    private DMaaPEventPublisher eventPublisher;
+    private EventPublisher eventPublisher;
 
     @Mock
     private StndDefinedDataValidator stndDefinedDataValidator;
@@ -388,7 +388,7 @@ public class VesRestControllerTest {
         when(applicationSettings.getApiVersionDescriptionFilepath()).thenReturn("etc/api_version_description.json");
     }
 
-    private void verifyThatTransformedEventWasSend(DMaaPEventPublisher eventPublisher, String eventBeforeTransformation) {
+    private void verifyThatTransformedEventWasSend(EventPublisher eventPublisher, String eventBeforeTransformation) {
         // event before transformation
         assertThat(eventBeforeTransformation).contains("\"version\": \"4.0.1\"");
         assertThat(eventBeforeTransformation).contains("\"faultFieldsVersion\": \"4.0\"");
